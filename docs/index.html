@@ -97,6 +97,9 @@ const props = {
   ],
   [
     "最後までお付き合い、ありがとうございました。"
+  ],
+  [
+    "ソースコードはこちらにあります。"
   ]
 ],
   ],
@@ -120,7 +123,8 @@ const props = {
   "<section id=\"16\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>しゃべらせてみる (2)</h1>\n<pre><code>(async () =&gt; {\n  const speakerId = 0; // 四国めたん (あまあま)\n  const { data: query } = await api.audioQueryAudioQueryPost(\n    'こんにちは',\n    speakerId\n  );\n\n  const { data: wav } = await api.synthesisSynthesisPost(\n    speakerId,\n    query,\n    undefined,\n    undefined,\n    { responseType: 'arraybuffer' }\n  );\n  fs.writeFileSync('test.wav', Buffer.from(wav));\n})();\n</code></pre>\n</section>\n",
   "<section id=\"17\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>しゃべってる</h1>\n<p><audio controls src=\"test.wav\"></audio></p>\n</section>\n",
   "<section id=\"18\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>VOICEVOX便利 <img class=\"emoji\" draggable=\"false\" alt=\"👍\" src=\"https://twemoji.maxcdn.com/v/14.0.2/svg/1f44d.svg\" data-marp-twemoji=\"\"/></h1>\n</section>\n",
-  "<section id=\"19\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>ありがとうございました</h1>\n</section>\n"
+  "<section id=\"19\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>ありがとうございました</h1>\n</section>\n",
+  "<section id=\"20\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>ソースコードはこちらです</h1>\n<p><a href=\"https://github.com/tnantoka/voicevox-openapi-ts\" target=\"_blank\" rel=\"noopener\">https://github.com/tnantoka/voicevox-openapi-ts</a></p>\n</section>\n"
 ],
 };
 </script>

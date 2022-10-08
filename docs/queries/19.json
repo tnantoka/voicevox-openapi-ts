@@ -209,7 +209,7 @@
   "intonationScale": 1,
   "volumeScale": 1,
   "prePhonemeLength": 0.1,
-  "postPhonemeLength": 0.1,
+  "postPhonemeLength": 1.1,
   "outputSamplingRate": 24000,
   "outputStereo": false,
   "kana": "サ'イゴマデ/オツ'キアイ、アリ'ガトオ/ゴザイマ'_シタ"

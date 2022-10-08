@@ -259,3 +259,13 @@ VOICEVOX、便利ですね。
 <!--
 最後までお付き合い、ありがとうございました。
 -->
+
+---
+
+# ソースコードはこちらです
+
+<a href="https://github.com/tnantoka/voicevox-openapi-ts" target="_blank" rel="noopener">https://github.com/tnantoka/voicevox-openapi-ts</a>
+
+<!--
+ソースコードはこちらにあります。
+-->

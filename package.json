@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "docs": "rm -rf docs && ts-node index.ts && voide -i docs.md -o docs -s 0 -t 'TypeScriptでVOICEVOXのAPIを叩く' -w 1:1 2:2 3:1 4:2 5:2 6:2 7:2 8:2 9:2 10:2 11:1 12:3 13:2 14:1 15:3 16:4 17:3 18:1 -u https://tnantoka.github.io/voicevox-openapi-ts/ && cp test.wav docs",
+    "docs": "rm -rf docs && ts-node index.ts && voide -i docs.md -o docs -s 0 -t 'TypeScriptでVOICEVOXのAPIを叩く' -w 1:1 2:2 3:1 4:2 5:2 6:2 7:2 8:2 9:2 10:2 11:1 12:3 13:2 14:1 15:3 16:4 17:3 18:1 19:1 -u https://tnantoka.github.io/voicevox-openapi-ts/ && cp test.wav docs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
