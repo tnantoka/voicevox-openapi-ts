@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="h-100">
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TypeScriptでVOICEVOXのAPIを叩く</title>
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+  crossorigin="anonymous"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+/>
+<link rel="stylesheet" href="voide.css" />
+
+<style>
+@charset "UTF-8";@import "https://fonts.bunny.net/css?family=Lato:400,900|Roboto+Mono:400,700&display=swap";div.marpit>section{width:1280px;height:720px;box-sizing:border-box;overflow:hidden;position:relative;scroll-snap-align:center center}div.marpit>section:after{bottom:0;content:attr(data-marpit-pagination);padding:inherit;pointer-events:none;position:absolute;right:0}div.marpit>section:not([data-marpit-pagination]):after{display:none}/* Normalization */div.marpit>section :is(h1,marp-h1){font-size:2em;margin:0.67em 0}div.marpit>section video::-webkit-media-controls{will-change:transform}@page{size:1280px 720px;margin:0}@media print{body,html{background-color:#fff;margin:0;page-break-inside:avoid;break-inside:avoid-page}div.marpit>section{page-break-before:always;break-before:page}div.marpit>section,div.marpit>section *{-webkit-print-color-adjust:exact!important;animation-delay:0s!important;animation-duration:0s!important;color-adjust:exact!important;transition:none!important}div.marpit>svg[data-marpit-svg]{display:block;height:100vh;width:100vw}}div.marpit>section img[data-marp-twemoji]{background:transparent;height:1em;margin:0 .05em 0 .1em;vertical-align:-.1em;width:1em}
+/*!
+ * Marp / Marpit Gaia theme.
+ *
+ * @theme gaia
+ * @author Yuki Hattori
+ *
+ * @auto-scaling true
+ * @size 16:9 1280px 720px
+ * @size 4:3 960px 720px
+ */div.marpit>section :is(pre,marp-pre) code.hljs{display:block;overflow-x:auto;padding:1em}div.marpit>section code.hljs{padding:3px 5px}div.marpit>section .hljs{background:#000;color:#f8f8f8}div.marpit>section .hljs-comment,div.marpit>section .hljs-quote{color:#aeaeae;font-style:italic}div.marpit>section .hljs-keyword,div.marpit>section .hljs-selector-tag,div.marpit>section .hljs-type{color:#e28964}div.marpit>section .hljs-string{color:#65b042}div.marpit>section .hljs-subst{color:#daefa3}div.marpit>section .hljs-link,div.marpit>section .hljs-regexp{color:#e9c062}div.marpit>section .hljs-name,div.marpit>section .hljs-section,div.marpit>section .hljs-tag,div.marpit>section .hljs-title{color:#89bdff}div.marpit>section .hljs-class .hljs-title,div.marpit>section .hljs-doctag,div.marpit>section .hljs-title.class_{text-decoration:underline}div.marpit>section .hljs-bullet,div.marpit>section .hljs-number,div.marpit>section .hljs-symbol{color:#3387cc}div.marpit>section .hljs-params,div.marpit>section .hljs-template-variable,div.marpit>section .hljs-variable{color:#3e87e3}div.marpit>section .hljs-attribute{color:#cda869}div.marpit>section .hljs-meta{color:#8996a8}div.marpit>section .hljs-formula{background-color:#0e2231;color:#f8f8f8;font-style:italic}div.marpit>section .hljs-addition{background-color:#253b22;color:#f8f8f8}div.marpit>section .hljs-deletion{background-color:#420e09;color:#f8f8f8}div.marpit>section .hljs-selector-class{color:#9b703f}div.marpit>section .hljs-selector-id{color:#8b98ab}div.marpit>section .hljs-emphasis{font-style:italic}div.marpit>section .hljs-strong{font-weight:700}div.marpit>section :is(h1,marp-h1),div.marpit>section :is(h2,marp-h2),div.marpit>section :is(h3,marp-h3),div.marpit>section :is(h4,marp-h4),div.marpit>section :is(h5,marp-h5),div.marpit>section :is(h6,marp-h6){margin:.5em 0 0}div.marpit>section :is(h1,marp-h1) strong,div.marpit>section :is(h2,marp-h2) strong,div.marpit>section :is(h3,marp-h3) strong,div.marpit>section :is(h4,marp-h4) strong,div.marpit>section :is(h5,marp-h5) strong,div.marpit>section :is(h6,marp-h6) strong{font-weight:inherit}div.marpit>section :is(h1,marp-h1)::part(auto-scaling),div.marpit>section :is(h2,marp-h2)::part(auto-scaling),div.marpit>section :is(h3,marp-h3)::part(auto-scaling),div.marpit>section :is(h4,marp-h4)::part(auto-scaling),div.marpit>section :is(h5,marp-h5)::part(auto-scaling),div.marpit>section :is(h6,marp-h6)::part(auto-scaling){max-height:580px}div.marpit>section :is(h1,marp-h1){font-size:1.8em}div.marpit>section :is(h2,marp-h2){font-size:1.5em}div.marpit>section :is(h3,marp-h3){font-size:1.3em}div.marpit>section :is(h4,marp-h4){font-size:1.1em}div.marpit>section :is(h5,marp-h5){font-size:1em}div.marpit>section :is(h6,marp-h6){font-size:.9em}div.marpit>section blockquote,div.marpit>section p{margin:1em 0 0}div.marpit>section ol>li,div.marpit>section ul>li{margin:.3em 0 0}div.marpit>section ol>li>p,div.marpit>section ul>li>p{margin:.6em 0 0}div.marpit>section code{display:inline-block;font-family:Roboto Mono,monospace;font-size:.8em;letter-spacing:0;margin:-.1em .15em;padding:.1em .2em;vertical-align:baseline}div.marpit>section :is(pre,marp-pre){display:block;margin:1em 0 0;overflow:visible}div.marpit>section :is(pre,marp-pre) code{box-sizing:border-box;font-size:.7em;margin:0;min-width:100%;padding:.5em}div.marpit>section :is(pre,marp-pre)::part(auto-scaling){max-height:calc(580px - 1em)}div.marpit>section blockquote{margin:1em 0 0;padding:0 1em;position:relative}div.marpit>section blockquote:after,div.marpit>section blockquote:before{content:"“";display:block;font-family:Times New Roman,serif;font-weight:700;position:absolute}div.marpit>section blockquote:before{left:0;top:0}div.marpit>section blockquote:after{bottom:0;right:0;transform:rotate(180deg)}div.marpit>section blockquote>:first-child{margin-top:0}div.marpit>section mark{background:transparent}div.marpit>section table{border-collapse:collapse;border-spacing:0;margin:1em 0 0}div.marpit>section table td,div.marpit>section table th{border-style:solid;border-width:1px;padding:.2em .4em}div.marpit>section footer,div.marpit>section header,div.marpit>section:after{box-sizing:border-box;font-size:66%;height:70px;line-height:50px;overflow:hidden;padding:10px 25px;position:absolute}div.marpit>section:after{--marpit-root-font-size:66%}div.marpit>section header{top:0}div.marpit>section footer,div.marpit>section header{left:0;right:0}div.marpit>section footer{bottom:0}div.marpit>section{word-wrap:break-word;--color-background:#fff8e1;--color-background-stripe:rgba(69,90,100,.1);--color-foreground:#455a64;--color-dimmed:#6a7a7d;--color-highlight:#0288d1;background-color:var(--color-background);background-image:linear-gradient(135deg,hsla(0,0%,53%,0),hsla(0,0%,53%,.02) 50%,hsla(0,0%,100%,0) 0,hsla(0,0%,100%,.05));color:var(--color-foreground);font-family:Lato,Avenir Next,Avenir,Trebuchet MS,Segoe UI,sans-serif;font-size:35px;height:720px;letter-spacing:1.25px;line-height:1.35;padding:70px;width:1280px}div.marpit>section{--marpit-root-font-size:35px}div.marpit>section:after{bottom:0;font-size:80%;right:0}div.marpit>section:after{--marpit-root-font-size:80%}div.marpit>section a,div.marpit>section mark{color:var(--color-highlight)}div.marpit>section code{background:var(--color-dimmed);color:var(--color-background)}div.marpit>section :is(h1,marp-h1) strong,div.marpit>section :is(h2,marp-h2) strong,div.marpit>section :is(h3,marp-h3) strong,div.marpit>section :is(h4,marp-h4) strong,div.marpit>section :is(h5,marp-h5) strong,div.marpit>section :is(h6,marp-h6) strong{color:var(--color-highlight)}div.marpit>section :is(pre,marp-pre){background:var(--color-foreground)}div.marpit>section :is(pre,marp-pre)>code{background:transparent}div.marpit>section blockquote:after,div.marpit>section blockquote:before,div.marpit>section footer,div.marpit>section header,div.marpit>section section:after{color:var(--color-dimmed)}div.marpit>section table td,div.marpit>section table th{border-color:var(--color-foreground)}div.marpit>section table thead th{background:var(--color-foreground);color:var(--color-background)}div.marpit>section table tbody>tr:nth-child(odd) td,div.marpit>section table tbody>tr:nth-child(odd) th{background:var(--color-background-stripe,transparent)}div.marpit>section>:first-child,div.marpit>section>header:first-child+*{margin-top:0}div.marpit>section:where(.invert){--color-background:#455a64;--color-background-stripe:rgba(255,248,225,.1);--color-foreground:#fff8e1;--color-dimmed:#dad8c8;--color-highlight:#81d4fa}div.marpit>section:where(.gaia){--color-background:#0288d1;--color-background-stripe:rgba(255,248,225,.1);--color-foreground:#fff8e1;--color-dimmed:#cce2de;--color-highlight:#81d4fa}div.marpit>section:where(.lead){display:flex;flex-flow:column nowrap;justify-content:center}div.marpit>section:where(.lead) :is(h1,marp-h1),div.marpit>section:where(.lead) :is(h2,marp-h2),div.marpit>section:where(.lead) :is(h3,marp-h3),div.marpit>section:where(.lead) :is(h4,marp-h4),div.marpit>section:where(.lead) :is(h5,marp-h5),div.marpit>section:where(.lead) :is(h6,marp-h6){text-align:center}div.marpit>section:where(.lead) p{text-align:center}div.marpit>section:where(.lead) blockquote>:is(h1,marp-h1),div.marpit>section:where(.lead) blockquote>:is(h2,marp-h2),div.marpit>section:where(.lead) blockquote>:is(h3,marp-h3),div.marpit>section:where(.lead) blockquote>:is(h4,marp-h4),div.marpit>section:where(.lead) blockquote>:is(h5,marp-h5),div.marpit>section:where(.lead) blockquote>:is(h6,marp-h6),div.marpit>section:where(.lead) blockquote>p{text-align:left}div.marpit>section:where(.lead) ol>li>p,div.marpit>section:where(.lead) ul>li>p{text-align:left}div.marpit>section:where(.lead) table{margin-left:auto;margin-right:auto}
+</style>
+
+<script>
+const props = {
+  comments: [
+    [`Generated by
+    <a href="https://github.com/tnantoka/voide" target="_blank" rel="noopener" class="text-white">Voide</a>
+    with
+    <a href="https://marp.app/" target="_blank" rel="noopener" class="text-white">Marp</a>,
+    <a href="https://voicevox.hiroshiba.jp/" target="_blank" rel="noopener" class="text-white">VOICEVOX:四国めたん</a>`],
+    ...[
+  [
+    "VOICEVOXにはAPIがあります。"
+  ],
+  [
+    "しかも、オープンAPI形式のドキュメントが用意されています。\nドキュメントは、VOICEVOXが起動していればWebブラウザでも見れます。"
+  ],
+  [
+    "オープンAPIドキュメントがあるということは、つまり、APIクライアントを自動生成できるのです。"
+  ],
+  [
+    "ということで、タイプスクリプトでやってみます。いろいろな方法があると思いますが、ボイドではこの方法を使っています。"
+  ],
+  [
+    "それではやっていきます。まずはプロジェクトを作ります。"
+  ],
+  [
+    "必要なライブラリを入れます。"
+  ],
+  [
+    "APIクライアントを生成する時に、ジェネレーターのバージョンが最新の6系だとエラーになったので、本家と合わせて5系にしています。"
+  ],
+  [
+    "クライアントを生成するためにはオープンAPIドキュメントにアクセスできる必要があるので、VOICEVOXを起動します。\nMacならこんな感じでGUIなしで起動できます。普通にアプリを起動してももちろんOKです。"
+  ],
+  [
+    "では、生成します。"
+  ],
+  [
+    "無事、生成されました。"
+  ],
+  [
+    "生成されたクライアントを使ってみます。"
+  ],
+  [
+    "音声ライブラリの一覧を表示します。"
+  ],
+  [
+    "ちゃんと取得できていますね。"
+  ],
+  [
+    "というわけで動きました！"
+  ],
+  [
+    "最後に喋らせてみたいと思います。"
+  ],
+  [
+    "クエリーを作った後、シンセサイズに渡します。"
+  ],
+  [
+    "ちゃんとしゃべってます！"
+  ],
+  [
+    "VOICEVOX、便利ですね。"
+  ],
+  [
+    "最後までお付き合い、ありがとうございました。"
+  ]
+],
+  ],
+  sections: [
+  "<section id=\"0\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\"><h1>TypeScriptでVOICEVOXのAPIを叩く</h1><p></p></section>\n",
+  "<section id=\"1\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>VOICEVOXは外部から叩けるAPIがある</h1>\n</section>\n",
+  "<section id=\"2\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>OpenAPIのドキュメントが用意されてる</h1>\n<p><a href=\"http://localhost:50021/docs\" target=\"_blank\" rel=\"noopener\">http://localhost:50021/docs</a></p>\n<p>※ VOICEVOXが起動している必要があります</p>\n</section>\n",
+  "<section id=\"3\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>APIクライアントが自動生成できる</h1>\n</section>\n",
+  "<section id=\"4\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>TypeScriptでやってみる</h1>\n<p><a href=\"https://github.com/tnantoka/voide\" target=\"_blank\" rel=\"noopener\">Voide</a>で使ってる方法</p>\n</section>\n",
+  "<section id=\"5\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>プロジェクトを作る</h1>\n<pre><code>$ mkdir voicevox-openapi-ts\n$ cd voicevox-openapi-ts \n$ npm init -y\n</code></pre>\n</section>\n",
+  "<section id=\"6\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>ライブラリを入れる</h1>\n<pre><code>$ npm i -D \\\n    ts-node \\\n    typescript \\\n    @openapitools/openapi-generator-cli \\\n    axios\n</code></pre>\n</section>\n",
+  "<section id=\"7\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>OpenAPI Generatorのバージョン指定</h1>\n<p><a href=\"https://github.com/VOICEVOX/voicevox/blob/main/openapitools.json\" target=\"_blank\" rel=\"noopener\">本家</a>に合わせて5系を使う</p>\n<pre><code>$ npx openapi-generator-cli version-manager set 5.4.0\n</code></pre>\n</section>\n",
+  "<section id=\"8\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>VOICEVOX起動</h1>\n<pre><code>$ ~/path/to/VOICEVOX.app/Contents/MacOS/run\n</code></pre>\n<p>など</p>\n</section>\n",
+  "<section id=\"9\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>クライアント生成</h1>\n<pre><code>$ npx openapi-generator-cli generate \\\n    -g typescript-axios \\\n    -o openapi \\\n    -i http://localhost:50021/openapi.json\n</code></pre>\n</section>\n",
+  "<section id=\"10\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>できた</h1>\n<pre><code>$ tree openapi \nopenapi\n├── api.ts\n├── base.ts\n├── common.ts\n├── configuration.ts\n├── git_push.sh\n└── index.ts\n</code></pre>\n</section>\n",
+  "<section id=\"11\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>クライアントを使ってみる</h1>\n</section>\n",
+  "<section id=\"12\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>音声ライブラリ一覧 (1)</h1>\n<pre><code>// index.ts\nimport { DefaultApi } from './openapi';\n\nconst basePath = 'http://localhost:50021';\nexport const api = new DefaultApi(undefined, basePath);\n\n(async () =&gt; {\n  const { data: speakers } = await api.speakersSpeakersGet();\n  const names = speakers\n    .map(({ name }) =&gt; name)\n    .join(', ');\n  console.log(names);\n})();\n</code></pre>\n</section>\n",
+  "<section id=\"13\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>音声ライブラリ一覧 (2)</h1>\n<pre><code>$ npx ts-node index.ts \n四国めたん, ずんだもん, 春日部つむぎ, 雨晴はう, 波音リツ,\n玄野武宏, 白上虎太郎, 青山龍星, 冥鳴ひまり, 九州そら,\nもち子さん, 剣崎雌雄, WhiteCUL, 後鬼, No.7\n</code></pre>\n</section>\n",
+  "<section id=\"14\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>動いた <img class=\"emoji\" draggable=\"false\" alt=\"🎉\" src=\"https://twemoji.maxcdn.com/v/14.0.2/svg/1f389.svg\" data-marp-twemoji=\"\"/></h1>\n</section>\n",
+  "<section id=\"15\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>しゃべらせてみる (1)</h1>\n<pre><code>// index.ts\nimport fs from 'fs';\n\nimport { DefaultApi } from './openapi';\n\nconst basePath = 'http://localhost:50021';\nexport const api = new DefaultApi(undefined, basePath);\n</code></pre>\n</section>\n",
+  "<section id=\"16\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>しゃべらせてみる (2)</h1>\n<pre><code>(async () =&gt; {\n  const speakerId = 0; // 四国めたん (あまあま)\n  const { data: query } = await api.audioQueryAudioQueryPost(\n    'こんにちは',\n    speakerId\n  );\n\n  const { data: wav } = await api.synthesisSynthesisPost(\n    speakerId,\n    query,\n    undefined,\n    undefined,\n    { responseType: 'arraybuffer' }\n  );\n  fs.writeFileSync('test.wav', Buffer.from(wav));\n})();\n</code></pre>\n</section>\n",
+  "<section id=\"17\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>しゃべってる</h1>\n<p><audio controls src=\"test.wav\"></audio></p>\n</section>\n",
+  "<section id=\"18\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>VOICEVOX便利 <img class=\"emoji\" draggable=\"false\" alt=\"👍\" src=\"https://twemoji.maxcdn.com/v/14.0.2/svg/1f44d.svg\" data-marp-twemoji=\"\"/></h1>\n</section>\n",
+  "<section id=\"19\" data-class=\"lead\" data-theme=\"gaia\" class=\"lead\" style=\"--class:lead;--theme:gaia;\">\n<h1>ありがとうございました</h1>\n</section>\n"
+],
+};
+</script>
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="TypeScriptでVOICEVOXのAPIを叩く">
+<meta property="og:description" content="">
+
+<meta property="og:url" content="">
+<meta property="og:image" content="og.png">
+
+</head>
+
+<body class="h-100">
+
+<div class="h-100 d-flex flex-column">
+  <div class="flex-fill slide-container marpit"></div>
+  <div class="d-flex align-items-strech bg-dark text-white position-absolute bottom-0 w-100">
+    <div class="flex-fill align-self-center px-3 caption-container"></div>
+    <div class="d-flex align-items-end"">
+      <span class="p-2 m-1 page-container text-nowrap"></span>
+      <button class="btn btn-lg btn-dark invert-button">
+        <i class="bi-moon-fill active"></i>
+        <i class="bi-moon inactive d-none"></i>
+      </button>
+      <button class="btn btn-lg btn-dark caption-button">
+        <i class="bi-badge-cc-fill active"></i>
+        <i class="bi-badge-cc inactive d-none"></i>
+      </button>
+      <button class="btn btn-lg btn-dark mute-button">
+        <i class="bi-volume-mute-fill active"></i>
+        <i class="bi-volume-up-fill inactive d-none"></i>
+      </button>
+      <button class="btn btn-lg btn-dark autoplay-button">
+        <i class="bi-stop-fill active"></i>
+        <i class="bi-play-fill inactive d-none"></i>
+      </button>
+      <button class="btn btn-lg btn-dark back-button">
+        <i class="bi-chevron-left"></i>
+      </button>
+      <button class="btn btn-lg btn-dark forward-button">
+        <i class="bi-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+  crossorigin="anonymous"
+></script>
+<script src="voide.js"></script>
+
+</body>
+
+</html>
